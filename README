@@ -1,0 +1,24 @@
+To prepare your developer environment execute:
+sudo apt-get install git	
+git clone https://github.com/AIiRcz1115/AIiRcz1115
+
+Then run:
+server/create-devenv.sh
+
+After those steps you are ready to contribute to the project.
+
+
+To run Django server:
+
+1. Use virtualenv
+source server/venv/bin/activate
+
+2. Run server
+python server/PinPRIMES/manage.py runserver
+
+3. Check whether server is working properly, open this address in web browser:
+http://localhost:8000/pp_main_app/
+
+4. You should see Hello, world! 
+
+
