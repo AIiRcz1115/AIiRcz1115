@@ -19,6 +19,9 @@ python server/PinPRIMES/manage.py runserver
 3. Check whether server is working properly, open this address in web browser:
 http://localhost:8000/pp_main_app/
 
-4. You should see Hello, world! 
+4. You should see Hello, world!
+
+5. To disable virtualenv execute:
+deactivate
 
 
