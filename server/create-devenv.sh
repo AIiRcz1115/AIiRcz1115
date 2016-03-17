@@ -11,5 +11,6 @@ pip3 install django
 django-admin --version
 pip3 install django-registration-redux
 deactivate
+cd AIiRcz1115
 
 exit 0
