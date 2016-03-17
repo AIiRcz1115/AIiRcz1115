@@ -9,6 +9,7 @@ virtualenv server/venv
 source server/venv/bin/activate
 pip3 install django
 django-admin --version
+pip3 install django-registration-redux
 deactivate
 
 exit 0
