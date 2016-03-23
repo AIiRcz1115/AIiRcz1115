@@ -10,6 +10,20 @@
     <body>
       <div class="page-header">
           <h1><a href="/">PinPRIMES</a></h1>
+          {% if user.is_authenticated %}
+          <p>
+              Logged as {{ user.get_username }}.
+              <br>
+              <a href="http://127.0.0.1:8000/accounts/logout/">Logout</a>
+          </p>
+          {% else %}
+          <p>
+              Not logged in.
+              <br>
+              <a href="http://127.0.0.1:8000/accounts/register/">Register</a> or
+              <br>
+              <a href="http://127.0.0.1:8000/accounts/login/">login</a></p>
+          {% endif %}
       </div>
       <div class="content container">
           <div class="row">
