@@ -52,7 +52,7 @@ bool isprime(long n)
   long l = (long)sqrt(n)  + 1;
   for(long i = 5 ; i <= l ; i += 2 ) //liczby nieparzyste do sqrt(n)
     if( !(n % i) ) return false;
-    		
+
   return true;
 }
 
@@ -69,7 +69,6 @@ long largestprimefactor(long n)
   }
 
   return i;
-
 }
 
 int aks(long n)
@@ -171,5 +170,3 @@ int main()
 //    getch();
     return 0;
 }
-
-
