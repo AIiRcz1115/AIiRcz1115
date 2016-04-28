@@ -15,29 +15,27 @@
 
               Logged as {{ user.get_username }}. <br><br>
 
-              select one of the following algorithm:<br>
           </p>
-              <form>
-                 <input type="radio" name="algorithm" value="AKS" > AKS <br>
-                 <input type="radio" name="algorithm" value="MR" > Millera-Rabina<br><br>
-              </form>
-          <p>
-              as last step, give us some number to test: <br>
-          </p>
-              <form>
-                 <input type="number" name="numberToTest" min="2" max="999999999999999999999999999999" /> <br>
 
-              </form>
+          <form method="post" action="/pp_main_app/test_primality/"> {% csrf_token %}
+              Master address: <input type="text" name="master_address" > <br>
+              <input type="radio" name="algorithm" value="AKS" > AKS <br>
+              <input type="radio" name="algorithm" value="MR" > Miller-Rabin<br><br>
+              <input type="number" name="number_to_test" min="2" max="999999999999999999999999999999" />
+              <input type="submit" value="Test primality">
               <br>
-              <a href="http://127.0.0.1:8000/accounts/logout/">Logout</a>
+          </form>
+          <br>
+          <br>
+          <a href="/accounts/logout/">Logout</a>
 
           {% else %}
           <p>
               Not logged in.
               <br>
-              <a href="http://127.0.0.1:8000/accounts/register/">Register</a> or
+              <a href="/accounts/register/">Register</a> or
               <br>
-              <a href="http://127.0.0.1:8000/accounts/login/">login</a></p>
+              <a href="/accounts/login/">login</a></p>
           {% endif %}
       </div>
       <div class="content container">
