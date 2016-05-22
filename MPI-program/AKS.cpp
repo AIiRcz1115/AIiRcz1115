@@ -74,7 +74,7 @@ protected:
   }
 
 
-private:
+public:
 
 
   bool executeAlgorithm(long n, int id, int procs)
@@ -88,16 +88,13 @@ private:
       test1 = 1;
       logn = log(n)/log(2);
     }
+
     // wynik testu w roota do wszystkich procesow;
     MPI_Bcast(&logn, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     MPI_Bcast(&test1, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
-    //  printf("Proces: %d, test1: %d, test2: %d, logn %f\n", id, test1, test2, logn);
-    //  fflush(stdout);
-    //  MPI_Barrier(MPI_COMM_WORLD);
-
     if (test1)
-    return -1;
+    	return false;
 
     r1 = 2 + id;
 
@@ -126,12 +123,8 @@ private:
 
     MPI_Allreduce(&one, &test2, 1, MPI_INT, MPI_MAX, MPI_COMM_WORLD);
 
-    //  printf("Proces: %d, test1: %d, test2: %d, logn %f\n", id, test1, test2, logn);
-    //  fflush(stdout);
-    //  MPI_Barrier(MPI_COMM_WORLD);
-
     if (test2)
-    return -1;
+    	return false;
 
     //Najwieksze r ze wszystkich procesow
     MPI_Allreduce(&r1, &r2, 1, MPI_DOUBLE, MPI_MAX, MPI_COMM_WORLD);
@@ -180,12 +173,12 @@ private:
     MPI_Allreduce(&one, &test3, 1, MPI_INT, MPI_MAX, MPI_COMM_WORLD);
 
     if (test3)
-    return -1;
+    return false;
 
     printf("Proces: %d, n=%ld to liczba pierwsza\n", id, n);
     fflush(stdout);
-    return 0;
+    return true;
   }
 
 
-}
+};

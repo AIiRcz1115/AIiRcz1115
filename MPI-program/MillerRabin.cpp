@@ -40,11 +40,16 @@ protected:
 
 
 	// obliczenie S
-	int calcS(int liczba,int s) {
+	int calcS(int liczba, int s) {
+		int maxDzielnik =1;
 		if (liczba < pow2(s)) {
-			return s - 1;
+			return maxDzielnik;
 		}
-		else calcS(liczba, s + 1);
+		else {
+			if (liczba-1%s == 0)
+				maxDzielnik = s;
+			calcS(liczba, s + 1);
+		}
 	}
 
 
@@ -54,18 +59,9 @@ public:
 	bool executeAlgorithm(long n, int k, int id, int procs) {
 		long s = 0;
 		long a, d, prime;
-		bool result = false;
+		unsigned short int result = 0, all_results = 0;
 
 		srand(time(NULL));
-
-		if (n<4)
-		{
-			return true;
-		}
-		if (n % 2 == 0)
-		{
-			return false;
-		}
 
 		// calculate s and d
 		s = calcS(n, s);
@@ -74,22 +70,29 @@ public:
 		// try k times
 		for (int i = 0; i<k; i++)
 		{
+			cout << endl << " a = " << a;
 			a = 1 + (int)((n - 1)*rand() / (RAND_MAX + 1.0));
+			cout << endl << " if() powAtoBmodM(a, d, n) = " << powAtoBmodM(a, d, n);
 			if (powAtoBmodM(a, d, n) != 1)
 			{
-				result = false;
+				result = 0;
 				for (int r = 0; r <= s - 1; r++)
 				{
+					cout << endl << " if() powAtoBmodM(a, pow2(r) * d, n) = " << powAtoBmodM(a, pow2(r) * d, n);
+					cout << endl << " n-1 = " << n-1;
 					if (powAtoBmodM(a, pow2(r) * d, n) == n - 1)
 					{
-						result = true;
+						result = 1;
 						break;
 					}
 				}
-				if (!result)
-				{
-					return 0;
-				}
+			}
+
+			MPI_Allreduce(&result, &all_results, 1, MPI_UNSIGNED_SHORT, MPI_MIN, MPI_COMM_WORLD);
+
+			if (all_results == 0)
+			{
+				return 0;
 			}
 		}
 
