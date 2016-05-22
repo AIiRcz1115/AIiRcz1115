@@ -9,11 +9,13 @@ class MillerRabin
 protected:
 
 
-	int pow2(int pow) {
-		if (pow == 0) {
-			return 1;
+	int pow2(int s) {
+		if (s == 0) { 
+			return 1; 
 		}
-		else return 2 * pow2(pow - 1);
+		else {
+			return 2 * pow2(s-1); 
+		}
 	}
 
 
@@ -46,8 +48,7 @@ protected:
 			return maxDzielnik;
 		}
 		else {
-			if (liczba-1%s == 0)
-				maxDzielnik = s;
+			if (liczba-1%s == 0) maxDzielnik = s;
 			calcS(liczba, s + 1);
 		}
 	}
@@ -57,10 +58,9 @@ public:
 
 
 	bool executeAlgorithm(long n, int k, int id, int procs) {
-		long s = 0;
-		long a, d, prime;
+		int s = 1;
+		int a, d;
 		unsigned short int result = 0, all_results = 0;
-
 		srand(time(NULL));
 
 		// calculate s and d
@@ -70,33 +70,33 @@ public:
 		// try k times
 		for (int i = 0; i<k; i++)
 		{
-			cout << endl << " a = " << a;
-			a = 1 + (int)((n - 1)*rand() / (RAND_MAX + 1.0));
-			cout << endl << " if() powAtoBmodM(a, d, n) = " << powAtoBmodM(a, d, n);
+			// procenty
+			if (id == 0)
+				cerr << (i*100)/k << " ";
+			
+			a = 1 + (int)((n - 1)*(rand() / (RAND_MAX + 1.0)));
 			if (powAtoBmodM(a, d, n) != 1)
 			{
 				result = 0;
+				all_results = 0;
 				for (int r = 0; r <= s - 1; r++)
 				{
-					cout << endl << " if() powAtoBmodM(a, pow2(r) * d, n) = " << powAtoBmodM(a, pow2(r) * d, n);
-					cout << endl << " n-1 = " << n-1;
 					if (powAtoBmodM(a, pow2(r) * d, n) == n - 1)
 					{
 						result = 1;
 						break;
 					}
 				}
-			}
-
-			MPI_Allreduce(&result, &all_results, 1, MPI_UNSIGNED_SHORT, MPI_MIN, MPI_COMM_WORLD);
-
-			if (all_results == 0)
-			{
-				return 0;
+				
+				MPI_Allreduce(&result, &all_results, 1, MPI_UNSIGNED_SHORT, MPI_MIN, MPI_COMM_WORLD);
+				if (all_results == 0)
+				{
+					return false;
+				}
 			}
 		}
 
-		return 1;
+		return true;
 	}
 
 
