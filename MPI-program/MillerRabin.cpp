@@ -9,22 +9,22 @@ class MillerRabin
 protected:
 
 
-	int pow2(int s) {
-		if (s == 0) { 
-			return 1; 
+	unsigned long long pow2(unsigned long long s) {
+		if (s == 0) {
+			return 1;
 		}
 		else {
-			return 2 * pow2(s-1); 
+			return 2 * pow2(s-1);
 		}
 	}
 
 
 	//a^b mod m
-	int powAtoBmodM(int a, int b, int m)
+	unsigned long long powAtoBmodM(unsigned long long a, unsigned long long b, unsigned long long m)
 	{
-		int i;
-		int result = 1;
-		long int x = a%m;
+		unsigned long long i;
+		unsigned long long result = 1;
+		unsigned long long x = a%m;
 
 		for (i = 1; i <= b; i <<= 1)
 		{
@@ -42,8 +42,8 @@ protected:
 
 
 	// obliczenie S
-	int calcS(int liczba, int s) {
-		int maxDzielnik =1;
+	unsigned long long calcS (unsigned long long liczba, unsigned long long s) {
+		unsigned long long maxDzielnik =1;
 		if (liczba < pow2(s)) {
 			return maxDzielnik;
 		}
@@ -57,9 +57,9 @@ protected:
 public:
 
 
-	bool executeAlgorithm(long n, int k, int id, int procs) {
-		int s = 1;
-		int a, d;
+	bool executeAlgorithm (unsigned long long n, unsigned long long k, int id, int procs) {
+		unsigned long long s = 1;
+		unsigned long long a, d;
 		unsigned short int result = 0, all_results = 0;
 		srand(time(NULL));
 
@@ -68,18 +68,18 @@ public:
 		d = n / pow2(s);
 
 		// try k times
-		for (int i = 0; i<k; i++)
+		for (unsigned long long i = 0; i<k; i++)
 		{
 			// procenty
 			if (id == 0)
 				cerr << (i*100)/k << " ";
-			
-			a = 1 + (int)((n - 1)*(rand() / (RAND_MAX + 1.0)));
+
+			a = 1 + (unsigned long long)((n - 1)*(rand() / (RAND_MAX + 1.0)));
 			if (powAtoBmodM(a, d, n) != 1)
 			{
 				result = 0;
 				all_results = 0;
-				for (int r = 0; r <= s - 1; r++)
+				for (unsigned long long r = 0; r <= s - 1; r++)
 				{
 					if (powAtoBmodM(a, pow2(r) * d, n) == n - 1)
 					{
@@ -87,7 +87,7 @@ public:
 						break;
 					}
 				}
-				
+
 				MPI_Allreduce(&result, &all_results, 1, MPI_UNSIGNED_SHORT, MPI_MIN, MPI_COMM_WORLD);
 				if (all_results == 0)
 				{

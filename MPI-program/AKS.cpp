@@ -52,13 +52,13 @@ protected:
 	long largestprimefactor(long n)
 	{
 		long i;
-		if (n < 2) 
+		if (n < 2)
 			return 1;
 
 		for (i = 2 ; i < n ; i++) {
-			while ( !(n % i) ) 
+			while ( !(n % i) )
 				n /= i;
-			if ( n==1 ) 
+			if ( n==1 )
 				break;
 		}
 
@@ -74,6 +74,9 @@ public:
 		unsigned short int result = 1, all_results = 1;
 		long r = 2 + id, all_r, f_r = 0, all_f_r, q, s;
 		double logn = log(n)/log(2);
+
+		if (id == 0)
+			cerr << 0 << " ";
 
 		// Test 1
 
@@ -91,10 +94,6 @@ public:
 
 		while ( r < n && all_results == 1)
 		{
-			// Procenty
-			if (id == 0)
-				cerr << (r*100)/n << " ";
-
 			if ( gcd( n, r ) != 1 )
 				result = 0;
 
