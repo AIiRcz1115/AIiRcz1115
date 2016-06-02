@@ -72,7 +72,7 @@ public:
 		{
 			// procenty
 			if (id == 0)
-				cerr << (i*100)/k << " ";
+				cerr << (i*100)/k << endl;
 
 			a = 1 + (unsigned long long)((n - 1)*(rand() / (RAND_MAX + 1.0)));
 			if (powAtoBmodM(a, d, n) != 1)

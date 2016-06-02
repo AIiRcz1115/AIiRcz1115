@@ -135,7 +135,7 @@ public:
 		{
 			// procenty
 			if (id == 0)
-				cerr << (a*100)/s << " ";
+				cerr << (a*100)/s << endl;
 
 			Polynomial* leftpoly=Polynomial::createXa(1,-a);
 

@@ -8,43 +8,113 @@
         <link rel="stylesheet" href="{% static 'css/blog.css' %}">
     </head>
     <body>
-      <div class="page-header">
-          <h1><a href="/">PinPRIMES</a></h1>
-          {% if user.is_authenticated %}
-          <p>
+    <div class="container">
+        <div class="page-header">
+            <h1><a href="/">PinPRIMES</a></h1>
+            {% if user.is_authenticated %}
+            <p>
 
-              Logged as {{ user.get_username }}. <br><br>
+                Logged as {{ user.get_username }}.<br>
+                <a href="/accounts/logout/">Logout</a><br>
+                <br>
 
-          </p>
+            </p>
 
-          <form method="post" action="/pp_main_app/test_primality/"> {% csrf_token %}
-              Master address: <input type="text" name="master_address" > <br>
-              <input type="radio" name="algorithm" value="AKS" > AKS <br>
-              <input type="radio" name="algorithm" value="MR" > Miller-Rabin<br><br>
-              <input type="number" name="number_to_test" min="2" max="999999999999999999999999999999" />
-              <input type="submit" value="Test primality">
+            <h2>Create a new task</h2>
               <br>
-          </form>
-          <br>
-          <br>
-          <a href="/accounts/logout/">Logout</a>
+            <form method="post" action="/pp_main_app/test_primality/"> {% csrf_token %}
+                Master address: <input type="text" name="master_address"> <br>
+                <br>
+                <p>Algorithm type:<br></p>
+                <input type="radio" name="algorithm" value="aks"> AKS <br>
+                <input type="radio" name="algorithm" value="mr"> Miller-Rabin<br><br>
+                <p>Number:<br></p>
+                <input type="number" name="number_to_test" min="2" max="999999999999999999999999999999"/>
+                <input type="submit" value="Test primality">
+                <br>
+            </form>
+              <br>
+              <br>
+            <div class="container">
+                <h3>Tasks</h3>
+                {% if not tasks %}
+                <div class="alert alert-info">
+                    There is no tasks.
+                </div>
+                {% else %}
+                <div class="row head">
+                    <div class="col-md-1">State</div>
+                    <div class="col-md-1">Number</div>
+                    <div class="col-md-1">Algorithm</div>
+                    <div class="col-md-1">Result</div>
+                    <div class="col-md-1">User</div>
+                    <div class="col-md-2">Started</div>
+                    <div class="col-md-2">Ended</div>
+                    <div class="col-md-2">Delete</div>
+                </div>
+                <br>
+                {% for task in tasks %}
+                <div class="row">
+                    {% if task.state == 0 %}
+                    <div class="col-md-1">Pending</div>
+                    {% elif task.state == 1 %}
+                    <div class="col-md-1">Running</div>
+                    {% elif task.state == 2 %}
+                    <div class="col-md-1">Stopping</div>
+                    {% elif task.state == 3 %}
+                    <div class="col-md-1">Stopped</div>
+                    {% else %}
+                    <div class="col-md-1">Finished</div>
+                    {% endif %}
+                    <div class="col-md-1">{{task.number}}</div>
+                    {% if task.result == 1 %}
+                    <div class="col-md-1">Complex</div>
+                    {% elif task.result == 0 %}
+                    <div class="col-md-1">Prime</div>
+                    {% else %}
+                    <div class="col-md-1">Uknown</div>
+                    {% endif %}
+                    {% if task.algorithm == 0 %}
+                    <div class="col-md-1">AKS</div>
+                    {% elif task.algorithm == 1 %}
+                    <div class="col-md-1">Miller-Rabin</div>
+                    {% endif %}
+                    <div class="col-md-1">{{task.user.get_username}}</div>
+                    <div class="col-md-2">{{task.time_begin}}</div>
+                    {% if task.state < 3 %}
+                    <div class="col-md-2"></div>
+                    {% else %}
+                    <div class="col-md-2">{{task.time_end}}</div>
+                    {% endif %}
+                    {% if task.state < 2 %}
+                    <div class="col-md-2"><a href="{% url 'stop_task' task.id %}">Stop</a></div>
+                    {% else %}
+                    <div class="col-md-2"></div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+            <br>
+            <br>
 
-          {% else %}
-          <p>
-              Not logged in.
-              <br>
-              <a href="/accounts/register/">Register</a> or
-              <br>
-              <a href="/accounts/login/">login</a></p>
-          {% endif %}
-      </div>
-      <div class="content container">
-          <div class="row">
-              <div class="col-md-8">
-              {% block content %}
-              {% endblock %}
+            {% else %}
+            <p>
+                Not logged in.
+                <br>
+                <a href="/accounts/register/">Register</a> or
+                <br>
+                <a href="/accounts/login/">login</a></p>
+            {% endif %}
+        </div>
+        <div class="content container">
+            <div class="row">
+                <div class="col-md-8">
+                    {% block content %}
+                    {% endblock %}
+                </div>
               </div>
           </div>
-      </div>
+    </div>
     </body>
 </html>
