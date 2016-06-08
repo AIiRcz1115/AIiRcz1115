@@ -40,7 +40,7 @@ def run_command(command):
         if output:
             line = output.strip()
             # task_object['progress'] = line
-            line_split = line.split(" ")
+            line_split = line.split(' ')
             if len(line_split) == 2:
                 task_object['result'] = int(line_split[1])
             task_object['progress'] = int(line)
