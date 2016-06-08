@@ -65,10 +65,10 @@ def handle_connection(connection, addr):
         cmd = None
         if task_object['algorithm'] == AlgorithmType.miller_rabin:
             cmd = ['mpirun', '-np', '4', '-hosts', 'localhost',
-                   '~/MPI-program/prime', 'mr', '{}'.format(task_object['number']), '100000']
+                   '/home/mpiuser/AIiRcz1115/MPI-program/prime', 'mr', '{}'.format(task_object['number']), '100000']
         elif task_object['algorithm'] == AlgorithmType.aks:
             cmd = ['mpirun', '-np', '4', '-hosts', 'localhost',
-                   '~/MPI-program/prime', 'aks', '{}'.format(task_object['number'])]
+                   '/home/mpiuser/AIiRcz1115/MPI-program/prime', 'aks', '{}'.format(task_object['number'])]
 
         _thread.start_new_thread(run_command, (cmd,))
 
