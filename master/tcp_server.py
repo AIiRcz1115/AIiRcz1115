@@ -39,16 +39,14 @@ def run_command(command):
             break
         if output:
             line = output.strip()
-            if len(line_split) == 1:
+            line_split = line.split(' ')
+            if len(line_split) == 2:
+                task_object['result'] = int(line_split[1])
+                break
+            elif len(line_split) == 1:
                 task_object['progress'] = int(line)
             print('Progress:', line)
-    output = task_process.stderr.readline().decode()
-    if output:
-        line = output.strip()
-        # task_object['progress'] = line
-        line_split = line.split(' ')
-        if len(line_split) == 2:
-            task_object['result'] = int(line_split[1])
+
     rc = task_process.poll()
     task_object['state'] = TaskState.finished
     print('Task finished')
