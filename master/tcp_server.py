@@ -33,7 +33,7 @@ def run_command(command):
     global task_process
     task_process = subprocess.Popen(command, stderr=subprocess.PIPE, preexec_fn=os.setsid, shell=False)
     while True:
-        output = task_process.stderr.readline()
+        output = task_process.stderr.readline().decode()
         # if output == '' and task_process.poll() is not None:
         if task_process.poll() is not None:
             break
