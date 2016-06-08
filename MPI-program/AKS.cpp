@@ -76,7 +76,7 @@ public:
 		double logn = log(n)/log(2);
 
 		if (id == 0)
-			cerr << 0 << " ";
+			cerr << 0 << endl;
 
 		// Test 1
 
