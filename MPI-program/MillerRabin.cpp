@@ -91,11 +91,12 @@ public:
 				MPI_Allreduce(&result, &all_results, 1, MPI_UNSIGNED_SHORT, MPI_MIN, MPI_COMM_WORLD);
 				if (all_results == 0)
 				{
+				    cerr << "Result: 0" << endl;
 					return false;
 				}
 			}
 		}
-
+        cerr << "Result: 1" << endl;
 		return true;
 	}
 
