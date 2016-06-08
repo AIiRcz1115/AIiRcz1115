@@ -43,7 +43,8 @@ def run_command(command):
             line_split = line.split(' ')
             if len(line_split) == 2:
                 task_object['result'] = int(line_split[1])
-            task_object['progress'] = int(line)
+            elif len(line_split) == 1:
+                task_object['progress'] = int(line)
             print('Progress:', line)
 
     rc = task_process.poll()
