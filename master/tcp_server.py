@@ -40,12 +40,14 @@ def run_command(command):
         if output:
             line = output.strip()
             # task_object['progress'] = line
+            line_split = line.split(" ")
+            if len(line_split) == 2:
+                task_object['result'] = int(line_split[1])
             task_object['progress'] = int(line)
             print('Progress:', line)
 
     rc = task_process.poll()
     task_object['state'] = TaskState.finished
-    task_object['result'] = rc
     print('Task finished')
     return rc
 
@@ -61,10 +63,10 @@ def handle_connection(connection, addr):
         task_object = json_input
         cmd = None
         if task_object['algorithm'] == AlgorithmType.miller_rabin:
-            cmd = ['mpirun', '-np', '4', '-hosts', 'localhost:1,localhost:2,localhost:3,localhost:4',
+            cmd = ['mpirun', '-np', '4', '-hosts', 'localhost',
                    './prime', 'mr', '{}'.format(task_object['number']), '100000']
         elif task_object['algorithm'] == AlgorithmType.aks:
-            cmd = ['mpirun', '-np', '4', '-hosts', 'localhost:1,localhost:2,localhost:3,localhost:4',
+            cmd = ['mpirun', '-np', '4', '-hosts', 'localhost',
                    './prime', 'aks', '{}'.format(task_object['number'])]
 
         _thread.start_new_thread(run_command, (cmd,))
