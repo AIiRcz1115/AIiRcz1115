@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.template import RequestContext
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, redirect
 from django.views.decorators.csrf import csrf_protect
 import socket  # Import socket module
 import json
@@ -32,7 +32,7 @@ def run_primality_test(request):
             task.order = 0
         task.save()
     context = dict()
-    context['tasks'] = Task.objects.filter(user=request.user.id)
+    context['tasks'] = Task.objects.all()
     context['user'] = request.user
     context['message'] = ''
     return render_to_response('main.html', context, RequestContext(request))
@@ -54,7 +54,7 @@ def stop_task(request, task_id):
     else:
         message = 'You cannot stop this task, you are not a owner nor superuser.'
     context = dict()
-    context['tasks'] = Task.objects.filter(user=request.user.id)
+    context['tasks'] = Task.objects.all()
     context['user'] = request.user
     context['message'] = message
-    return render(request, 'main.html', context)
+    return render_to_response('main.html', context, RequestContext(request))

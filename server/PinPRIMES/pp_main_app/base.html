@@ -89,7 +89,9 @@
                     <div class="col-md-2">{{task.time_end}}</div>
                     {% endif %}
                     {% if task.state < 2 %}
+                        {% if task.user.get_username == user.get_username or request.user.is_superuser %}
                     <div class="col-md-2"><a href="{% url 'stop_task' task.id %}">Stop</a></div>
+                        {% endif %}
                     {% else %}
                     <div class="col-md-2"></div>
                     {% endif %}
