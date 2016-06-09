@@ -41,6 +41,7 @@ def run_command(command):
             line_split = line.split(' ')
             if len(line_split) == 2:
                 task_object['result'] = int(line_split[1])
+                print(task_object['result'])
                 break
             elif len(line_split) == 1:
                 task_object['progress'] = int(line)
@@ -48,6 +49,7 @@ def run_command(command):
 
     rc = task_process.poll()
     task_object['state'] = TaskState.finished
+    task_object['progress'] = 100
     print('Task finished')
     return rc
 
@@ -61,6 +63,10 @@ def handle_connection(connection, addr):
     json_input = json.loads(s_input)[0]
     if json_input['state'] == TaskState.pending:
         task_object = json_input
+        try:
+            os.killpg(os.getpgid(task_process.pid), signal.SIGTERM)
+        except:
+            pass
         cmd = None
         if task_object['algorithm'] == AlgorithmType.miller_rabin:
             cmd = ['mpirun', '-np', '4', '-hosts', 'localhost',

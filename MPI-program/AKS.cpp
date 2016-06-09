@@ -88,7 +88,10 @@ public:
 		MPI_Bcast(&result, 1, MPI_UNSIGNED_SHORT, 0, MPI_COMM_WORLD);
 
     	if (result == 0)
+    	{
+    	    cerr << "Result: 0" << endl;
     		return false;
+        }
 
 		// Test 2
 
@@ -112,7 +115,10 @@ public:
 		MPI_Allreduce(&result, &all_results, 1, MPI_UNSIGNED_SHORT, MPI_MIN, MPI_COMM_WORLD);
 
 		if ( all_results == 0 )
-			return false;
+    	{
+    	    cerr << "Result: 0" << endl;
+    		return false;
+        }
 
 		// Najwieksze r ze wszystkich procesow
 		MPI_Allreduce(&r, &all_r, 1, MPI_LONG, MPI_MAX, MPI_COMM_WORLD);
@@ -165,8 +171,10 @@ public:
 		MPI_Allreduce(&result, &all_results, 1, MPI_UNSIGNED_SHORT, MPI_MIN, MPI_COMM_WORLD);
 
 		if ( all_results == 0 )
+		{
 		    cerr << "Result: 0" << endl;
 			return false;
+		}
         cerr << "Result: 1" << endl;
 		return true;
 	}
