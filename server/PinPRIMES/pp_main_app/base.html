@@ -29,7 +29,9 @@
                 <input type="radio" name="algorithm" value="aks"> AKS <br>
                 <input type="radio" name="algorithm" value="mr"> Miller-Rabin<br><br>
                 <p>Number:<br></p>
-                <input type="number" name="number_to_test" min="2" max="999999999999999999999999999999"/>
+                <input type="number" name="number_to_test" min="2" max="9999999999"/>
+                <p>Processes:<br></p>
+                <input type="number" name="processes" min="1" max="1000"/>
                 <input type="submit" value="Test primality">
                 <br>
             </form>
@@ -48,6 +50,7 @@
                     <div class="col-md-1">Number</div>
                     <div class="col-md-1">Result</div>
                     <div class="col-md-1">Algorithm</div>
+                    <div class="col-md-1">Processes</div>
                     <div class="col-md-1">User</div>
                     <div class="col-md-2">Started</div>
                     <div class="col-md-2">Ended</div>
@@ -81,6 +84,7 @@
                     {% elif task.algorithm == 1 %}
                     <div class="col-md-1">Miller-Rabin</div>
                     {% endif %}
+                    <div class="col-md-1">{{task.processes}}</div>
                     <div class="col-md-1">{{task.user.get_username}}</div>
                     <div class="col-md-2">{{task.time_begin}}</div>
                     {% if task.state < 3 %}

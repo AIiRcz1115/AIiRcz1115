@@ -26,6 +26,7 @@ def run_primality_test(request):
         task.user = request.user
         task.master_host = request.POST['master_address']
         task.result = -1
+        task.processes = request.POST['processes']
         try:
             task.order = Task.objects.all().order_by("-order")[0].order + 1
         except:

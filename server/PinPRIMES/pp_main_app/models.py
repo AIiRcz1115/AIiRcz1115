@@ -34,6 +34,7 @@ class Task(models.Model):
     progress = models.IntegerField(default=0)
     time_begin = models.DateTimeField(default=datetime.now())
     time_end = models.DateTimeField(default=datetime(1970, 1, 1, 0, 0))
+    processes = models.IntegerField();
 
     def to_json(self):
         return json.dumps([{
@@ -47,7 +48,8 @@ class Task(models.Model):
             'result': self.result,
             'progress': self.progress,
             'time_begin': self.time_begin.isoformat(),
-            'time_end': self.time_end.isoformat() or datetime(1970, 1, 1, 0, 0)
+            'time_end': self.time_end.isoformat() or datetime(1970, 1, 1, 0, 0),
+            'processes': self.processes
         }])
 
     def from_json(self, json_object):
@@ -61,3 +63,4 @@ class Task(models.Model):
         self.progress = json_object['progress']
         self.time_begin = json_object['time_begin']
         self.time_end = json_object['time_end']
+        self.processes = json_object['processes']
